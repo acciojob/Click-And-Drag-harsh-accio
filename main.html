@@ -14,37 +14,33 @@
       font-family: Arial, sans-serif;
     }
 
-    .container {
+    .items {
       width: 600px;
       height: 400px;
       border: 2px solid #333;
       position: relative;
       background: #fff;
-      display: flex;
-      flex-wrap: wrap;
-      padding: 10px;
-      gap: 10px;
-      box-sizing: border-box;
+      overflow: hidden; /* constrain cubes inside */
     }
 
     .cube {
       width: 80px;
       height: 80px;
       background-color: #007bff;
-      cursor: grab;
-      position: absolute; /* required for free dragging */
+      position: absolute;
       display: flex;
       justify-content: center;
       align-items: center;
       color: white;
       font-weight: bold;
-      user-select: none; /* prevent text selection while dragging */
       border-radius: 4px;
+      cursor: grab;
+      user-select: none;
     }
   </style>
 </head>
-<body> 
-  <div class="items" id="container">
+<body>
+  <div class="items">
     <div class="cube" style="top:10px; left:10px;">1</div>
     <div class="cube" style="top:10px; left:110px;">2</div>
     <div class="cube" style="top:10px; left:210px;">3</div>
@@ -54,16 +50,17 @@
   </div>
 
   <script>
-    const container = document.getElementById('container');
-    const cubes = document.querySelectorAll('.cube');
+    const container = document.querySelector('.items');
+    const cubes = container.querySelectorAll('.cube');
 
     cubes.forEach(cube => {
       cube.addEventListener('mousedown', dragStart);
 
       function dragStart(e) {
         e.preventDefault();
-        let offsetX = e.clientX - cube.offsetLeft;
-        let offsetY = e.clientY - cube.offsetTop;
+
+        const offsetX = e.clientX - cube.offsetLeft;
+        const offsetY = e.clientY - cube.offsetTop;
 
         cube.style.cursor = 'grabbing';
 
