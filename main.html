@@ -2,41 +2,100 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Click and Drag</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Draggable Cubes</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f0f0f0;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      width: 600px;
+      height: 400px;
+      border: 2px solid #333;
+      position: relative;
+      background: #fff;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 10px;
+      gap: 10px;
+      box-sizing: border-box;
+    }
+
+    .cube {
+      width: 80px;
+      height: 80px;
+      background-color: #007bff;
+      cursor: grab;
+      position: absolute; /* required for free dragging */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: bold;
+      user-select: none; /* prevent text selection while dragging */
+      border-radius: 4px;
+    }
+  </style>
 </head>
-<body>
-  <div class="items">
-    <div class="item item1">01</div>
-    <div class="item item2">02</div>
-    <div class="item item3">03</div>
-    <div class="item item4">04</div>
-    <div class="item item5">05</div>
-    <div class="item item6">06</div>
-    <div class="item item7">07</div>
-    <div class="item item8">08</div>
-    <div class="item item9">09</div>
-    <div class="item item10">10</div>
-    <div class="item item11">11</div>
-    <div class="item item12">12</div>
-    <div class="item item13">13</div>
-    <div class="item item14">14</div>
-    <div class="item item15">15</div>
-    <div class="item item16">16</div>
-    <div class="item item17">17</div>
-    <div class="item item18">18</div>
-    <div class="item item19">19</div>
-    <div class="item item20">20</div>
-    <div class="item item21">21</div>
-    <div class="item item22">22</div>
-    <div class="item item23">23</div>
-    <div class="item item24">24</div>
-    <div class="item item25">25</div>
+<body> 
+  <div class="container" id="container">
+    <div class="cube" style="top:10px; left:10px;">1</div>
+    <div class="cube" style="top:10px; left:110px;">2</div>
+    <div class="cube" style="top:10px; left:210px;">3</div>
+    <div class="cube" style="top:110px; left:10px;">4</div>
+    <div class="cube" style="top:110px; left:110px;">5</div>
+    <div class="cube" style="top:110px; left:210px;">6</div>
   </div>
 
-<script>
-//Your code goes here 
-</script>
+  <script>
+    const container = document.getElementById('container');
+    const cubes = document.querySelectorAll('.cube');
 
-  </body>
+    cubes.forEach(cube => {
+      cube.addEventListener('mousedown', dragStart);
+
+      function dragStart(e) {
+        e.preventDefault();
+        let offsetX = e.clientX - cube.offsetLeft;
+        let offsetY = e.clientY - cube.offsetTop;
+
+        cube.style.cursor = 'grabbing';
+
+        function dragMove(e) {
+          let x = e.clientX - offsetX;
+          let y = e.clientY - offsetY;
+
+          // Boundary constraints
+          const minX = 0;
+          const minY = 0;
+          const maxX = container.clientWidth - cube.offsetWidth;
+          const maxY = container.clientHeight - cube.offsetHeight;
+
+          if (x < minX) x = minX;
+          if (y < minY) y = minY;
+          if (x > maxX) x = maxX;
+          if (y > maxY) y = maxY;
+
+          cube.style.left = x + 'px';
+          cube.style.top = y + 'px';
+        }
+
+        function dragEnd() {
+          document.removeEventListener('mousemove', dragMove);
+          document.removeEventListener('mouseup', dragEnd);
+          cube.style.cursor = 'grab';
+        }
+
+        document.addEventListener('mousemove', dragMove);
+        document.addEventListener('mouseup', dragEnd);
+      }
+    });
+  </script>
+</body>
 </html>
