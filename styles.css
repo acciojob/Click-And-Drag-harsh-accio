@@ -1,52 +1,39 @@
-/* layout */
-* { box-sizing: border-box; }
-html, body {
-  height: 100%;
+body {
   margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: Arial, sans-serif;
+  padding: 0;
+  font-family: sans-serif;
   background: #f4f6fb;
-  -webkit-user-select: none;
-  user-select: none;
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
 }
 
-/* defined area for cubes */
-.container {
-  width: 720px;               /* you can change width/height as needed */
-  height: 420px;
-  padding: 12px;              /* JS reads this padding for grid layout */
-  border-radius: 8px;
+/* scrollable container */
+.items {
+  display: flex;
+  overflow-x: scroll;
+  cursor: grab;
+  width: 600px;
+  height: 180px;
   border: 2px solid #333;
-  background: #ffffff;
-  position: relative;         /* important for absolutely positioned cubes */
-  overflow: hidden;
+  border-radius: 10px;
+  background: #fff;
+  scroll-behavior: smooth;
 }
 
-/* cubes */
-.cube {
-  position: absolute;         /* positioned by JS into grid */
-  width: 100px;
-  height: 100px;
-  background: linear-gradient(135deg,#6fb1ff,#2b7bff);
-  color: #fff;
+.item {
+  flex: 0 0 auto;
+  width: 150px;
+  height: 150px;
+  margin: 10px;
+  background: linear-gradient(135deg, #6fb1ff, #2b7bff);
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
-  border-radius: 10px;
-  box-shadow: 0 6px 16px rgba(20,40,80,0.12);
-  cursor: grab;
-  transition: box-shadow 0.12s, transform 0.08s;
-  touch-action: none;         /* important for pointer events on touch devices */
+  border-radius: 8px;
   user-select: none;
-  -webkit-user-drag: none;
-}
-
-/* while dragging */
-.cube.dragging {
-  cursor: grabbing;
-  transform: scale(1.04);
-  box-shadow: 0 12px 28px rgba(20,40,80,0.18);
 }
